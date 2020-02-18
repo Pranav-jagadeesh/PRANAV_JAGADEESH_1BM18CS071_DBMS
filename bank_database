@@ -1,0 +1,35 @@
+create table BRANCH(branchname varchar2(20),branchcity varchar2(20),assets NUMBER(10,2),PRIMARY KEY(branchname));
+create table ACCOUNTS(accno int,branchname varchar2(20),balance NUMBER(10,2),primary key(accno));
+COMMIT;
+create table CUSTOMER(customername varchar2(20),customerstreet varchar2(20),city varchar2(20),primary key(customername));
+COMMIT;
+create table DEPOSITOR(customername varchar2(20),accno int,PRIMARY KEY(customername,accno),
+FOREIGN KEY(customername) REFERENCES CUSTOMER(customername),
+FOREIGN KEY(accno) REFERENCES ACCOUNTS(accno)
+);
+COMMIT;
+create table LOAN(loanumber int,branchname varchar2(20),amount number(10,2),primary key(loanumber));
+COMMIT;
+create table BORROWER(customername varchar2(20),loannumber int,foreign key(customername) references CUSTOMER(customername));
+commit;
+insert into BRANCH values('&branchname','&branchcity','&assests');
+commit;
+select * from BRANCH;
+insert into ACCOUNTS values('&accno','&branchname','&balance');
+commit;
+select * from ACCOUNTS;
+insert into CUSTOMER values('&customername','&customer_street','&city');
+commit;
+select *from CUSTOMER;
+insert into DEPOSITOR values('&customername','&accno');
+commit;
+select *from DEPOSITER;
+insert into LOAN values('&loannumber','&branchname','&amount');
+commit;
+select * from LOAN;
+insert into BORROWER values('&customername','&loannumber');
+commit;
+select * from BORROWER;
+
+
+
