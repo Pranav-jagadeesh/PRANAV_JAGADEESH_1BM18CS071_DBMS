@@ -1,0 +1,6 @@
+create table customer(custno int,cname varchar2(20),city varchar2(20),primary key(custno));
+create table order(orderno int,odate date,custno int,ordamt int,primary key(orderno),FOREIGN KEY(custno) REFERENCES customer(custno)ON DELETE CASCADE);
+CREATE TABLE item(ITEMNO int,UNITPRICE int,primary key(ITEMNO));
+CREATE TABLE ORDER-ITEM(Orderno int,Itemno int,Qty int,PRIMARY KEY(Orderno,Itemno));
+CREATE TABLE warehouse(warehouseno int,city varchar2(20),primary key(warehouseno));
+create table shipment(orderno int,warehouseno int,shipdate date,primary key(orderno,warehouseno));
