@@ -80,7 +80,5 @@ insert into depositor values('FAIZAL',1234503);
 insert into depositor values('RAJEEV',1234504);
 commit;
 
-
-
 select * from depositor;
 
