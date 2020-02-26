@@ -4,13 +4,13 @@ COMMIT;
 create table CUSTOMER(customername varchar2(20),customerstreet varchar2(20),city varchar2(20),primary key(customername));
 COMMIT;
 create table DEPOSITOR(customername varchar2(20),accno int,PRIMARY KEY(customername,accno),
-FOREIGN KEY(customername) REFERENCES CUSTOMER(customername),
-FOREIGN KEY(accno) REFERENCES ACCOUNTS(accno)
+FOREIGN KEY(customername) REFERENCES CUSTOMER(customername)on delete cascade,
+FOREIGN KEY(accno) REFERENCES ACCOUNTS(accno)on delete cascade
 );
 COMMIT;
 create table LOAN(loanumber int,branchname varchar2(20),amount number(10,2),primary key(loanumber));
 COMMIT;
-create table BORROWER(customername varchar2(20),loannumber int,primary key(customername),foreign key(customername) references CUSTOMER(customername));
+create table BORROWER(customername varchar2(20),loannumber int,primary key(customername),foreign key(customername) references CUSTOMER(customername)on delete cascade);
 commit;
 
 insert into BRANCH values('sbi pd nagar','bangalore',200000);
