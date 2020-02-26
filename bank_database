@@ -12,24 +12,6 @@ create table LOAN(loanumber int,branchname varchar2(20),amount number(10,2),prim
 COMMIT;
 create table BORROWER(customername varchar2(20),loannumber int,primary key(customername),foreign key(customername) references CUSTOMER(customername));
 commit;
-insert into BRANCH values('&branchname','&branchcity','&assests');
-commit;
-select * from BRANCH;
-insert into ACCOUNTS values('&accno','&branchname','&balance');
-commit;
-select * from ACCOUNTS;
-insert into CUSTOMER values('&customername','&customer_street','&city');
-commit;
-select *from CUSTOMER;
-insert into DEPOSITOR values('&customername','&accno');
-commit;
-select *from DEPOSITER;
-insert into LOAN values('&loannumber','&branchname','&amount');
-commit;
-select * from LOAN;
-insert into BORROWER values('&customername','&loannumber');
-commit;
-select * from BORROWER;
 
 insert into BRANCH values('sbi pd nagar','bangalore',200000);
 insert into BRANCH values('sbi rajaji nagar','bangalore',500000);
