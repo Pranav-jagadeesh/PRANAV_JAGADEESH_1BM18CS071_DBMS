@@ -10,7 +10,7 @@ FOREIGN KEY(accno) REFERENCES ACCOUNTS(accno)
 COMMIT;
 create table LOAN(loanumber int,branchname varchar2(20),amount number(10,2),primary key(loanumber));
 COMMIT;
-create table BORROWER(customername varchar2(20),loannumber int,foreign key(customername) references CUSTOMER(customername));
+create table BORROWER(customername varchar2(20),loannumber int,primary key(customername),foreign key(customername) references CUSTOMER(customername));
 commit;
 insert into BRANCH values('&branchname','&branchcity','&assests');
 commit;
