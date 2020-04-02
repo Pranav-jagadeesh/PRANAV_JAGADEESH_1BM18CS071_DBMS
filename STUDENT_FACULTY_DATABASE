@@ -1,0 +1,74 @@
+
+create table student(snum int,snamevarchar(20),major varchar(20),level varchar(5),age int,primary key(snum));
+
+create table class(cname varchar(20),meetsat varchar(10),room varchar(10),fid int,primary key(cname),
+foreign key(fid) references faculty(fid));
+
+create table enrolled(snum int,cname varchar(20),primary key(snum,cname),
+foreign key(snum) references student(snum),foreign key(cname) references class(cname));
+
+create table faculty(fid int,fname varchar(20),deptid int,primary key(fid));
+commit;
+
+insert into student values(l,'Richard','Physics','Jr',20);
+insert into student values(2,'Navathe','Maths','Ms',21);
+insert into student values(3,'Elmasri','Chemical','Sr',22);
+insert into student values(4,'Shamkant','Database','Mj',25);
+insert into student values(5,'Stevens','Database','Jr',22);
+insert into student values(6,'Anil','Physics','Jr',22);
+commit;
+
+select * from student;
+
+insert into faculty values(2001,'RAM',1);
+insert into faculty values(2002,'SHAM',2);
+insert into faculty values(2003,'ROOPA',3);
+insert into faculty values(2004,'DEEPA',4);
+insert into faculty values(2005,'HARSHITH',4);
+commit;
+
+select * from faculty;
+
+insert into class values('1A','9.30AM','R101',2001);  
+insert into class values('lB','10.30AM','R201',2003);
+insert into class values('2A','3.30PM','R301',2001);
+insert into class values('2B','9.30AM','R102',2004);
+insert into class values('3A','11.30AM','R128',2005);
+insert into class values('3B','4.30PM','R101',2004);
+insert into class values('4B','2.30PM','R201',2004);
+insert into class values('5A','12.30PM','R102',2004);
+insert into class values('5B','5.30PM','R128',2004);
+commit;
+
+select * from class;
+ 
+insert into enrolled values(1,'1A');
+insert into enrolled values(2,'1B');
+insert into enrolled values(3,'2A');
+insert into enrolled values(4,'2B');
+insert into enrolled values(5,'3A');
+insert into enrolled values(6,'1A');
+insert into enrolled values(4,'1A');
+insert into enrolled values(2,'1A');
+insert into enrolled values(3,'1A');
+insert into enrolled values(4,'1A');
+insert into enrolled values(5,'1A');
+commit;
+
+select * from enrolled;
+
+1>select s.sname from student s,class c,enrolled e,faculty f where s.level1='JR' 
+and s.snum=e.snum and c.name=e.cname and and c.fid=f.fid and fname='HARSHITH';
+
+2>select name from class where room='R128' or name in
+  (select cname from enrolled group by cname having count(snum)>5);
+  
+3>select s.sname from student s where s.snum in(select e1.snum from enrolled e1,class c1,enrolled e2,class c2 
+  where e1.cname=c1.name and e2.cname=c2.cname and e1.snum=e2.snum and 
+  c1.meetsat=c2.meetsat and el.cname<>c2.cname);
+
+4>select f.fname from faculty f where not exists((select c. room from class c)
+  minus(select cl.room from class cl where cl.fid=f.fid));
+ 
+5>select distinct f.fname from faculty f where 5>(select count(e.snum)from class c,enrolled e where
+  c.cname=e.cname and f.fid=c.fid);
