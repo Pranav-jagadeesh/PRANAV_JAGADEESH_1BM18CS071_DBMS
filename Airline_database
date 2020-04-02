@@ -1,0 +1,37 @@
+
+create table flight(no integer primary key,froml varchar(20),t01 varchar(20),distance integer,
+departs date,arrivesdate,price real);
+
+create table aircraft(aid int primary key,aname varchar2(15),cruisingrange integer);
+
+create table employees(eid int primary key,ename varchar2(15),salary real);
+
+create table certified(eidint,aidint,primary key(eid,aid),foreign key (eid) references employ ees(eid),
+foreign key (aid) references aircraft(aid));
+commit;
+ 
+insert into flight values(255,'BANGALORE','MUMBAI',200,'01-AUG-11','01-AUG-11',5000);
+insert into flight values(256,'BANGALORE','FRANKFURT',400,'01-AUG-11','01-AUG-11',8000);
+insert into flight values(257,'BANGALORE','DELHI',200,'01-AUG-11','01-AUG-11',5000);
+insert into flight values(258,'BANGALORE','DELHI',200,'01-AUG-11','01-AUG-11',6000);
+insert into flight values(259,'BANGALORE','MANGALORE',200,'01-AUG-11','01-AUG-11',4000);
+commit;
+
+select * from flight;
+
+insert into aircraft values(685,'BOEING15',1000);
+insert into aircraft values(686,'BOEING10',2000);
+insert into aircraft values(687,'SKYTRAIN',1000);
+insert into aircraft values(688,'AVENGER',100);
+commit;
+
+select * from aircraft;
+
+insert into employees values(101,'ASHA',90000);
+insert into employees values(102,'ARUN',85000);
+insert into employees values(103,'ANAND',3000);
+insert into employees values(104,'RAMYA',4000);
+commit;
+
+select * from employees;
+
