@@ -1,12 +1,12 @@
 
-create table flight(no integer primary key,froml varchar(20),t01 varchar(20),distance integer,
-departs date,arrivesdate,price real);
+create table flight(flno int,from varchar(20),to varchar(20),distance int,departs date,arrives date,
+price real,primary key(flno));
 
-create table aircraft(aid int primary key,aname varchar2(15),cruisingrange integer);
+create table aircraft(aid int,aname varchar2(15),cruisingrange int,primary key(aid));
 
-create table employees(eid int primary key,ename varchar2(15),salary real);
+create table employees(eid int,ename varchar2(15),salary int,primary key(eid));
 
-create table certified(eidint,aidint,primary key(eid,aid),foreign key (eid) references employ ees(eid),
+create table certified(eid int,aid int,primary key(eid,aid),foreign key (eid) references employees(eid),
 foreign key (aid) references aircraft(aid));
 commit;
  
@@ -35,3 +35,39 @@ commit;
 
 select * from employees;
 
+insert into certified values(101,685);
+insert into certified values(101,686);
+insert into certified values(101,687);
+insert into certified values(101,688);
+insert into certified values(102,685);
+insert into certified values(103,686);
+insert into certified values(103,687);
+commit;
+
+select * from certified;
+
+1>select a.aname from aircraft a where a.aid not in(select c.aid from certified c,
+  employees e where c.eid=e.eid and e.salary<80000);
+  commit;
+  
+2>select c.eid,max(a.cruiseingrange) from certified c,aircraft a 
+  where c.aid=a.aid roup by c.eid having count(c.aid)>3;
+  commit;
+  
+3>select ename from employees where salary <(select min(price) 
+  from flight where from='BANGALORE' and to='FRANKFURT');
+  commit;
+  
+4>select a.aname as name,avg(e.salary) as avgsal from aircraft a,certified c,employees e
+  where a.aid=c.aid and c.eid=e.eid and cruiseingrange>1000 group by a.aid,a,aname;
+  commit;
+  
+5>select distinct e.ename from employees e,certified c,aircraft a 
+  where a.aid=c.aid and c.eid=e.eid and a.aname like 'BOEING15';
+  commit;
+  
+6>select a.aid from aircraft a where a.cruiseingrange>(select min(distance)
+  from flight where from='BANGALORE' and to='DELHI');
+  commit;
+  
+  
