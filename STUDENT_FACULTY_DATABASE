@@ -59,16 +59,21 @@ select * from enrolled;
 
 1>select s.sname from student s,class c,enrolled e,faculty f where s.level1='JR' 
 and s.snum=e.snum and c.name=e.cname and and c.fid=f.fid and fname='HARSHITH';
+commit;
 
 2>select name from class where room='R128' or name in
   (select cname from enrolled group by cname having count(snum)>5);
+  commit;
   
 3>select s.sname from student s where s.snum in(select e1.snum from enrolled e1,class c1,enrolled e2,class c2 
   where e1.cname=c1.name and e2.cname=c2.cname and e1.snum=e2.snum and 
   c1.meetsat=c2.meetsat and el.cname<>c2.cname);
+commit;
 
 4>select f.fname from faculty f where not exists((select c. room from class c)
   minus(select cl.room from class cl where cl.fid=f.fid));
- 
+commit;
+
 5>select distinct f.fname from faculty f where 5>(select count(e.snum)from class c,enrolled e where
   c.cname=e.cname and f.fid=c.fid);
+commit;
