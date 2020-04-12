@@ -5,26 +5,39 @@ CREATE TABLE Parts(pid number(15),pname varchar(30) NOT NULL,color varchar(15) N
 
 CREATE TABLE Catalog(sid number(10),pid number(15),cost real NOT NULL,PRIMARY KEY (sid, pid),
 FOREIGN KEY(sid) REFERENCES Suppliers(sid),FOREIGN KEY(pid) REFERENCES Parts(pid));
+commit;
 
-insert into Suppliers values('&sid','&sname','&address');
-insert into Parts values('&pid','&pname','&color');
-insert into Catalog('&sid','&pid','&cost');
+insert into Suppliers values(&sid,'&sname','&address');
+commit;
+
+insert into Parts values(&pid,'&pname','&color');
+commit;
+
+insert into Catalog(&sid,&pid,&cost);
+commit;
 
 1>SELECT DISTINCT P.pname FROM Parts P, Catalog C WHERE P.pid = C.pid;
-
+  commit;
+  
 2>SELECT S.sname FROM Suppliers S WHERE NOT EXISTS 
   (( SELECT P.pid FROM Parts P)EXCEPT( SELECT C.pid FROM Catalog C WHERE C.sid = S.sid ));
+  commit;
   
 3>SELECT S.sname FROM Suppliers S WHERE NOT EXISTS
   ((SELECT P.pid FROM Parts P WHERE P.color = red)EXCEPT(SELECT C.pid FROM Catalog C WHERE C.sid = S.sid));
+  commit;
   
 4>SELECT P.PNAME FROM Parts P, Catalog C, Suppliers S WHERE P.pid = C.pid AND C.sid = S.sid AND S.sname = 
   'Acme Widget Suppliers' AND NOT EXISTS(SELECT * FROM Catalog C1, Supppliers S1 WHERE P.pid = C1.pid 
   AND C1.sid = S1.sid AND S1.sname <> 'Acme Widget Suppliers');
-
+  commit;
+  
 5>SELECT DISTINCT C.sid FROM Catalog C WHERE C.cost>(SELECT AVG(C1.cost)FROM Catalog C1 WHERE C1.pid = C.pid);
-
+  commit;
+  
 6>SELECT P.pid, S.sname FROM Parts P, Suppliers S, Catalog C WHERE C.pid = P.pid AND C.sid = S.sid
   AND C.cost = (SELECT MAX(C1.cost) FROM Catalog C1 WHERE C1.pid = P.pid); 
-
+  commit;
+  
 7>SELECT DISTINCT C.sid FROM Catalog C WHERE NOT EXISTS(SELECT * FROM Parts P WHERE P.pid = C.pid AND P.color <> red);
+  commit;
