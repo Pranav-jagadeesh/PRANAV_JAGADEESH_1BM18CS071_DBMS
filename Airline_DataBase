@@ -10,38 +10,22 @@ create table certified(eid int,aid int,primary key(eid,aid),foreign key (eid) re
 foreign key (aid) references aircraft(aid));
 commit;
  
-insert into flight values(255,'BANGALORE','MUMBAI',200,'01-AUG-11','01-AUG-11',5000);
-insert into flight values(256,'BANGALORE','FRANKFURT',400,'01-AUG-11','01-AUG-11',8000);
-insert into flight values(257,'BANGALORE','DELHI',200,'01-AUG-11','01-AUG-11',5000);
-insert into flight values(258,'BANGALORE','DELHI',200,'01-AUG-11','01-AUG-11',6000);
-insert into flight values(259,'BANGALORE','MANGALORE',200,'01-AUG-11','01-AUG-11',4000);
+insert into flight values(&flno,'&from','&to',&distance,'&departs','&arrives',&price);
 commit;
 
 select * from flight;
 
-insert into aircraft values(685,'BOEING15',1000);
-insert into aircraft values(686,'BOEING10',2000);
-insert into aircraft values(687,'SKYTRAIN',1000);
-insert into aircraft values(688,'AVENGER',100);
+insert into aircraft values(&aid,'&aname',&cruisingrange);
 commit;
 
 select * from aircraft;
 
-insert into employees values(101,'ASHA',90000);
-insert into employees values(102,'ARUN',85000);
-insert into employees values(103,'ANAND',3000);
-insert into employees values(104,'RAMYA',4000);
+insert into employees values(&eid,'&ename',&salary);
 commit;
 
 select * from employees;
 
-insert into certified values(101,685);
-insert into certified values(101,686);
-insert into certified values(101,687);
-insert into certified values(101,688);
-insert into certified values(102,685);
-insert into certified values(103,686);
-insert into certified values(103,687);
+insert into certified values(&eid,&aid);
 commit;
 
 select * from certified;
@@ -70,6 +54,13 @@ select * from certified;
   from flight where from='BANGALORE' and to='DELHI');
   commit;
   
+7>SELECT F.departs FROM Flights F WHERE F.flno IN ((SELECT F0.flno FROM Flights F0 WHERE F0.from = ‘Madison’ AND F0.to = ‘New York’
+  AND F0.arrives < ‘18:00’ ) UNION ( SELECT F0.flno FROM Flights F0, Flights F1 WHERE F0.from = ‘Madison’ AND F0.to <> ‘New York’
+  AND F0.to = F1.from AND F1.to = ‘New York’ AND F1.departs > F0.arrives AND F1.arrives < ‘18:00’ )UNION( SELECT F0.flno
+  FROM Flights F0, Flights F1, Flights F2 WHERE F0.from = ‘Madison’ AND F0.to = F1.from AND F1.to = F2.from AND F2.to = ‘New York’
+  AND F0.to <> ‘New York’ AND F1.to <> ‘New York’ AND F1.departs > F0.arrives AND F2.departs > F1.arrives AND F2.arrives < ‘18:00’ ));
+  commit;
+  
 8>SELECT E.ename, E.salary FROM Employees E WHERE E.eid NOT IN(SELECT DISTINCT C.eid FROM Certified C)AND E.salary 
-> ( SELECT AVG (E1.salary) FROM Employees E1 WHERE E1.eid IN ( SELECT DISTINCT C1.eid FROM Certified C1 ) );
-commit;
+  > ( SELECT AVG (E1.salary) FROM Employees E1 WHERE E1.eid IN ( SELECT DISTINCT C1.eid FROM Certified C1 ) );
+  commit;
